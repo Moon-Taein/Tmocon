@@ -40,10 +40,10 @@ public class MyController {
 				username);
 
 		// 사용자의 팔로우 리스트 가져오기
-		List<Follow> list = (List) service.getUserFollow("https://api.twitch.tv/helix/users/follows", myObject.getId());
+		List<Follow> list = service.getUserFollow("https://api.twitch.tv/helix/users/follows", myObject.getId());
 
 		// 온라인, 오프라인 리스트를 가져오기
-		Map<String, List<?>> targetMap = (HashMap<String, List<?>>) service.getOnOrOffStreamers(list);
+		Map<String, List<?>> targetMap = service.getOnOrOffStreamers(list);
 		List<OnlineStreamer> online = (List<OnlineStreamer>) targetMap.get("online");
 		List<OfflineStreamer> offline = (List<OfflineStreamer>) targetMap.get("offline");
 
