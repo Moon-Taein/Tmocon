@@ -87,7 +87,9 @@
   --bs-body-line-height: 1.5;
   --bs-body-color: #495057;
   --bs-body-color-rgb: 73, 80, 87;
+  
   --bs-body-bg: #fff;
+  
   --bs-body-bg-rgb: 255, 255, 255;
   --bs-emphasis-color: #000;
   --bs-emphasis-color-rgb: 0, 0, 0;
@@ -2257,10 +2259,13 @@ progress {
 }
 
 .form-control-lg {
-  min-height: calc(1.5em + 1rem + calc(var(--bs-border-width) * 2));
+  /* min-height: calc(1.5em + 1rem + calc(var(--bs-border-width) * 2)); */
+  min-height: 200px;
   padding: 0.5rem 1rem;
-  font-size: 1.25rem;
+  font-size: 5rem;
   border-radius: var(--bs-border-radius-lg);
+  box-sizing: border-box;
+  border: solid #9146FF 45px;
 }
 .form-control-lg::-webkit-file-upload-button {
   padding: 0.5rem 1rem;

@@ -1,6 +1,5 @@
 package com.example.demo.my;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +15,13 @@ public class MyController {
 	@Autowired
 	MyService service;
 
-	@GetMapping("/my")
-	public String my(Model model) {
-		MyObject myObject = (MyObject) service.getUserInfo("https://api.twitch.tv/helix/search/channels?query=",
-				"mgi3988");
-		model.addAttribute("target", myObject);
-		return "my";
-	}
+//	@GetMapping("/my")
+//	public String my(Model model) {
+//		MyObject myObject = (MyObject) service.getUserInfo("https://api.twitch.tv/helix/search/channels?query=",
+//				"mgi3988");
+//		model.addAttribute("target", myObject);
+//		return "my";
+//	}
 
 	@GetMapping("/follow")
 	public String follow(Model model, HttpServletRequest request) {
@@ -39,34 +38,37 @@ public class MyController {
 		MyObject myObject = (MyObject) service.getUserInfo("https://api.twitch.tv/helix/search/channels?query=",
 				username);
 
-		// 사용자의 팔로우 리스트 가져오기
-		List<Follow> list = service.getUserFollow("https://api.twitch.tv/helix/users/follows", myObject.getId());
+		if (myObject != null) {
+			// 사용자의 팔로우 리스트 가져오기
+			List<Follow> list = service.getUserFollow("https://api.twitch.tv/helix/users/follows", myObject.getId());
 
-		// 온라인, 오프라인 리스트를 가져오기
-		Map<String, List<?>> targetMap = service.getOnOrOffStreamers(list);
-		List<OnlineStreamer> online = (List<OnlineStreamer>) targetMap.get("online");
-		List<OfflineStreamer> offline = (List<OfflineStreamer>) targetMap.get("offline");
+			// 온라인, 오프라인 리스트를 가져오기
+			Map<String, List<?>> targetMap = service.getOnOrOffStreamers(list);
+			List<OnlineStreamer> online = (List<OnlineStreamer>) targetMap.get("online");
+			List<OfflineStreamer> offline = (List<OfflineStreamer>) targetMap.get("offline");
 
-		// 온라인 스트리머의 썸네일 이미지 size 조정
-		online = sizingImage(online);
+			// 온라인 스트리머의 썸네일 이미지 size 조정
+			online = sizingImage(online);
 
-		model.addAttribute("list", list);
-		model.addAttribute("online", online);
-		model.addAttribute("offline", offline);
-		model.addAttribute("user_id", username);
-		return "follow";
+			model.addAttribute("list", list);
+			model.addAttribute("online", online);
+			model.addAttribute("offline", offline);
+			model.addAttribute("user_id", username);
+			return "follow";
+		}
+		return "inputUserName";
 	}
 
 	@GetMapping("/")
 	public String getUserName() {
 		return "inputUserName";
 	}
-
-	@GetMapping("/auth")
-	public void auth(Model model) {
-		service.getUser(
-				"https://id.twitch.tv/oauth2/authorize?client_id=577e3iq6fdnqon0lzxr59ghwei2d3r&redirect_uri=http://localhost:8080/&response_type=token&scope=channel:read:subscriptions");
-	}
+//
+//	@GetMapping("/auth")
+//	public void auth(Model model) {
+//		service.getUser(
+//				"https://id.twitch.tv/oauth2/authorize?client_id=577e3iq6fdnqon0lzxr59ghwei2d3r&redirect_uri=http://localhost:8080/&response_type=token&scope=channel:read:subscriptions");
+//	}
 
 	// image resizing method
 	public List<OnlineStreamer> sizingImage(List<OnlineStreamer> list) {
@@ -77,5 +79,10 @@ public class MyController {
 		}
 		return list;
 	}
+
+	// TOP6 Games - 한국어;
+	// 통계낼 수 있는거 생각;
+	// 보여줄만한거 다 생각하기;
+	// webhook alarm;
 
 }

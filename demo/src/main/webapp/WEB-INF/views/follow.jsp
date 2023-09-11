@@ -17,7 +17,7 @@
 </head>
 <body>
 	<%
-		// 자동 새로고침 120
+		// 자동 새로고침 120초
 	 	response.setHeader("Refresh", "120");
 	%>
 <header>
@@ -68,7 +68,7 @@
 		<c:forEach var="item" items="${ online }">
 		<div class="col mb-5">
 		<div class="card h-100 w-110" >
-			<a href="https://www.twitch.tv/${ item.user_login }"><img alt="" src="${ item.thumbnail_url }"></a>
+			<a href="https://www.twitch.tv/${ item.user_login }" target="_blank"><img alt="" src="${ item.thumbnail_url }"></a>
 			<button type="button" class="btn btn-success">${ item.user_name }(${ item.user_login })</button>
 			<button type="button" class="btn btn-info">${ item.title }</button>
 			<button type="button" class="btn btn-dark">${ item.game_name }</button>
